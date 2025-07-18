@@ -12,17 +12,18 @@ import {
 } from "recharts";
 
 const CustomBarChart = ({ data }) => {
+  console.log("CustomBarChart received data:", data);
   const getBarColor = (index) => {
     return index % 2 === 0 ? "#7e5bef" : "#dcd4fc";
   };
 
   const CustomTooltip = ({ active, payload }) => {
     if (active && payload && payload.length) {
-      const { category, amount, month } = payload[0].payload;
+      const { category, amount, date } = payload[0].payload;
       return (
         <div className="bg-white rounded-lg shadow-md p-2 border border-gray-300">
           <p className="text-xs font-semibold text-purple-500 mb-1">
-            {category || month}
+            {category || date}
           </p>
           <p className="text-sm text-gray-600">
             Amount:{' '}
@@ -39,7 +40,7 @@ const CustomBarChart = ({ data }) => {
       <ResponsiveContainer width="100%" height={300}>
         <BarChart data={data}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="month" tick={{ fontSize: 12, fill: "#555" }} />
+          <XAxis dataKey="category" tick={{ fontSize: 12, fill: "#555" }} />
           <YAxis tick={{ fontSize: 12, fill: "#555" }} />
           <Tooltip content={<CustomTooltip />} />
           <Legend />
