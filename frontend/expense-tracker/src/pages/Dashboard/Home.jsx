@@ -14,6 +14,7 @@ import ExpenseTransactions from '../../components/Dashboard/ExpenseTransactions'
 import Last30DaysExpense from '../../components/Dashboard/Last30DaysExpense';
 import RecentIncomeWithChart from '../../components/Dashboard/RecentIncomeWithChart';
 import RecentIncome from '../../components/Dashboard/RecentIncome';
+import AIChatInput from '../../components/Dashboard/AIChatInput'; 
 
 const Home = () => {
   useUserAuth();
@@ -21,6 +22,7 @@ const Home = () => {
 
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const fetchDashboardData = async () => {
     if (loading) return;
@@ -39,13 +41,20 @@ const Home = () => {
     }
   };
 
+    const handleRefresh = () => {
+        setRefreshKey(prevKey => prevKey + 1);
+    };
+
+    
+
   useEffect(() => {
     fetchDashboardData();
-  }, []);
+  }, [refreshKey]);
   return (
     <DashboardLayout activeMenu="Dashboard">
       <div className="my-5 mx-auto">
         {/* Cards Section */}
+        <AIChatInput onExpenseAdded={handleRefresh} />
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <InfoCard
             icons={<IoMdCard />}
